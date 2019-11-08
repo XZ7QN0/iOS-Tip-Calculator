@@ -27,11 +27,22 @@ class ViewController: UIViewController {
         
         billField.text = nil
         billField.placeholder = currencySymbol
+        
+        // Loads the previously entered bill data from unexpected app restart
+        let defaults = UserDefaults.standard
+        if let billKey = defaults.string(forKey: "billKey") {
+            billField.text = billKey
+        }
     }
 
     // Dismisses keyboard by tapping anywhere on the screen
     @IBAction func onTap(_ sender: Any) {
         view.endEditing(true)
+        
+        // Saves the bill information should the app unexpectedly restart
+        let defaults = UserDefaults.standard
+        defaults.set(billField.text!, forKey: "billKey")
+        defaults.synchronize()
     }
     
     // TODO: Create a custom tip option with
